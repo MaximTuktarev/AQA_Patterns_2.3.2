@@ -21,15 +21,18 @@ public class DataGenerator {
             .log(LogDetail.ALL)
             .build();
 
-    @Value
-    public static class RegistrationDto {
-        String login;
-        String password;
-        String status;
-    }
-
 
     private DataGenerator() {
+    }
+
+    public static void sendRequest(RegistrationDto registeredUser) {
+        given()
+                .spec(requestSpec)
+                .body(registeredUser)
+                .when()
+                .post("/api/system/users")
+                .then()
+                .statusCode(200);
     }
 
     public static String getRandomLogin() {
@@ -54,15 +57,14 @@ public class DataGenerator {
             return registeredUser;
         }
 
-        public static void sendRequest(RegistrationDto registeredUser) {
-            given()
-                    .spec(requestSpec)
-                    .body(registeredUser)
-                    .when()
-                    .post("/api/system/users")
-                    .then()
-                    .statusCode(200);
-        }
+
+    }
+
+    @Value
+    public static class RegistrationDto {
+        String login;
+        String password;
+        String status;
     }
 }
 
